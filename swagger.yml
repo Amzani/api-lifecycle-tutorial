@@ -1,0 +1,374 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: "[Play] Video (API)"
+  description: |
+    Video API is service you can use to create and share your videos.
+
+    To create a video you have to upload a video asset first in any cdn or ftp server
+    (this API dosn't support upload yet) then you have to provide a valid video URL.
+
+    ### How to create a video ?
+
+    Provide the `url` as video source asset to create a new video ressource :
+
+    ```
+      POST /videos
+      {
+        "url" : "video source asset URL"
+        ...
+      }
+    ```
+
+
+    ### How to share ?
+
+    You can use the embed URL video, as following:
+    ```
+    <iframe frameborder="0" width="480" height="270" src="//EMBED_URL" allowfullscreen></iframe>
+    ```
+
+
+produces:
+  - application/hal+json      # Representation message format
+  - application/problem+json  # Error message format
+
+schemes:
+  - https
+
+securityDefinitions:
+   "API Key":
+     type: apiKey
+     in: header
+     name: x-api-key
+
+security:
+  - "API Key": []
+
+paths:
+  /:
+    x-summary: Videos
+
+    get:
+      summary: The API Root
+      description: Retrieve the API Root
+
+      responses:
+        200:
+          description: The root of the API
+          schema:
+            $ref: '#/definitions/halRoot'
+
+  /videos:
+    x-summary: List of Videos
+
+    get:
+      summary: Retrieve List of Videos
+      parameters:
+        - name: offset
+          in: query
+          description: Number of results to skip from the start of the list
+          required: false
+          type: string
+          default: '0'
+          x-example: '10'
+        - name: limit
+          in: query
+          description: The maximum number of reusults to return
+          required: false
+          type: string
+          default: '10'
+          x-example: '5'
+      responses:
+        200:
+          description: The list of Videos
+          schema:
+            $ref: '#/definitions/halVideos'
+
+    post:
+      summary: Create a New Video
+      consumes:
+        - application/json
+      parameters:
+        - name: Video
+          in: body
+          description: Video to be created
+          required: true
+          schema:
+            $ref: '#/definitions/video'
+      responses:
+        201:
+          description: Newly created video
+          schema:
+            $ref: '#/definitions/halVideo'
+
+  /videos/{video_id}:
+    x-summary: Video
+
+    parameters:
+      - name: video_id
+        in: path
+        description: Id of the Video
+        required: true
+        type: string
+        x-example: '5a37c635d0b9c242af40fcda'
+
+    get:
+      summary: Retrieve Video
+      responses:
+        200:
+          description: A particular Video
+          schema:
+            $ref: '#/definitions/halVideo'
+        404:
+          description: The request Video wasn't found
+          headers:
+            Content-Type:
+              type: string
+              default: application/problem+json
+          schema:
+            $ref: '#/definitions/videoNotFound'
+
+    patch:
+      summary: Update Video
+      consumes:
+        - application/json
+      parameters:
+        - name: Video
+          in: body
+          description: Partial video update
+          required: true
+          schema:
+            $ref: '#/definitions/videoPatch'
+      responses:
+        200:
+          description: The Video was updated
+          schema:
+            $ref: '#/definitions/halVideo'
+
+    delete:
+      summary: Delete Video
+      produces: []
+      responses:
+        204:
+          description: The Video was deleted
+
+definitions:
+  #
+  # API Root
+  #
+  halRoot:
+    type: object
+    allOf:
+      - $ref: '#/definitions/halResource'
+    example:
+      _links:
+        self:
+          href: /
+        videos:
+          href: /videos
+
+  #
+  # Orders Resource
+  #
+  halVideos:
+    type: object
+    allOf:
+      - $ref: '#/definitions/halResource'
+    example:
+      _links:
+        self:
+          href: /videos
+
+        create:
+          href: /videos
+
+        next:
+          href: /videos?offset=5&limit=5
+
+        first:
+          href: /videos?offset=0&limit=5
+
+        last:
+          href: /videos?offset=40&limit=5
+
+      _embedded:
+        order:
+          - $ref: '#/definitions/halVideo/example'
+
+  #
+  # Video Resource
+  #
+
+  # HAL Wrapper
+  halVideo:
+    type: object
+    allOf:
+      - $ref: '#/definitions/halResource'
+      - $ref: '#/definitions/video'
+    example:
+      _links:
+        self:
+          href: /video/5a37c635d0b9c242af40fcda
+
+        edit:
+          href: /video/5a37c635d0b9c242af40fcda
+
+        delete:
+          href: /video/5a37c635d0b9c242af40fcda
+      id: 5a37c635d0b9c242af40fcda
+      title: My Video title
+      description : An example of a video description
+      channel: samir
+      embedURL: http://www.example.com/embed/5a37c635d0b9c242af40fcda
+      viewsTotal: 555
+
+
+  # Partial Video
+  videoPatch:
+    type: object
+    allOf:
+      - $ref: '#/definitions/video'
+    example:
+      title: my New title
+
+  # Video
+  video:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      channel:
+        type: string
+      embedURL:
+        type: string
+        readOnly: true
+      sourceURL:
+        type: string
+      viewsTotal:
+        type: integer
+        readOnly: true
+    required:
+      - title
+      - description
+      - channel
+      - sourceURl
+    example:
+      id: 5a37c635d0b9c242af40fcda
+      title: My Video title
+      description : An example of a video description
+      channel: samir
+      embedURL: http://www.example.com/embed/5a37c635d0b9c242af40fcda
+      sourceURL: http://techslides.com/demos/sample-videos/small.mp4
+      viewsTotal: 555
+
+
+  # Order Not Found Error
+  videoNotFound:
+    type: object
+    allOf:
+      - $ref: '#/definitions/problemDetail'
+    example:
+      title: 'Not Found'
+      detail: 'Cannot find the requested video'
+      status: 404
+      instance: '/videos/5a37c635d0b9c242af40fcda'
+
+  #
+  # -- DO NOT EDIT BEYOND THIS POINT --
+  #
+
+  # Media Types Definitions
+
+  #
+  # application/problem+json
+  #
+  problemDetail:
+    type: object
+    properties:
+      type:
+        type: string
+      title:
+        type: string
+      status:
+        type: number
+      detail:
+        type: string
+      instance:
+        type: string
+    required:
+      - title
+      - detail
+
+  #
+  # application/hal+json defintion
+  #
+  halLinkObject:
+    type: object
+    required:
+      - href
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+      type:
+        type: string
+      deprecation:
+        type: string
+      name:
+        type: string
+      profile:
+        type: string
+      title:
+        type: string
+      hreflang:
+        type: string
+
+  halCuriesLink:
+    title: HAL Curies Link
+    allOf:
+      - type: object
+        properties:
+          templated:
+            enum:
+              - true
+        required:
+          - templated
+      - $ref: '#/definitions/halLinkObject'
+
+  halResource:
+    title: HAL Resource Object
+    type: object
+    properties:
+      _links:
+        type: object
+        additionalProperties:
+          # WARN: Should be "anyOf" but "anyOf" isn't supported in Swagger 2.0
+          allOf:
+            - $ref: '#/definitions/halLinkObject'
+            - type: array
+              items:
+                - $ref: '#/definitions/halLinkObject'
+        properties:
+          curies:
+            # WARN: Should be "anyOf" but "anyOf" isn't supported in Swagger 2.0
+            allOf:
+              - $ref: '#/definitions/halCuriesLink'
+              - type: array
+                items:
+                  - $ref: '#/definitions/halCuriesLink'
+      _embedded:
+        type: object
+        additionalProperties: true
+        # WARN: Apiary doesn't support circular references
+        # additionalProperties:
+        #   anyOf:
+        #     - $ref: '#/definitions/hal_resource'
+        #     - type: array
+        #       items:
+        #         - $ref: '#/definitions/hal_resource'

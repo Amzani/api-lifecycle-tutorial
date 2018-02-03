@@ -2,7 +2,7 @@
 
 ## Design
 
-You have as business goal to build a killer video sharing app! that will be avalaible in all devices.
+You have as business goal to build a killer video sharing app! that must be avalaible in all devices (Desktop, Mobile, AppTV...)
 
 You've decided wisly to think [API First](https://adidas-group.gitbooks.io/api-guidelines/content/core-principles/api-first.html) and [API Design First](https://adidas-group.gitbooks.io/api-guidelines/content/core-principles/design-maturity.html).
 
@@ -20,5 +20,11 @@ In this step we draw out a state diagrams for the proposed API. Each box in the 
 
 
 ![Video Model state diagram](https://raw.githubusercontent.com/Amzani/api-lifecycle-tutorial/master/img/State_Diagram.png)
+
+This state machine diagram will help you to identify the main ressources and their relations.
+
+## Step3. Formalize the design in the [Open API Specification](http://swagger.io/specification/)
+
+[Swagger.yml](./swagger.yml)
 
 ## Deploy & Test
