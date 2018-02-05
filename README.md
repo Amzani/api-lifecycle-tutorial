@@ -5,6 +5,7 @@
 - Unix/Linux Shell
 - Docker
 - Clone this repo
+- Clone this repo https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/ (internal)
 
 ## Design
 
@@ -85,21 +86,46 @@ Set up a CD pipeline to sync OAS file to Apiary
 
 ## Develop the API
 
-Task
-```
-Setup and test with Dredd
-```
+### Dev workflow
 
-Task
+1. Clone this repo https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/ (internal)
+2. Test with dredd
+3. Add This endpoint to your OAS file
 ```
-Test with postman
+  /foo:
+    x-summary: Foo
+
+    get:
+      summary: The FOO action
+      description: Retrieve the Foo
+
+      responses:
+        200:
+          description: Foo
+          type: string
 ```
+4. Run dredd again
+
+### Test with postman
+
+1. Import the OAS file into postman
+2. Run the demo video api app (npm start)
+2. Test the API with postman
 
 ## Deploy the API
 
+Mashery demo
+
 ## Publish
 
+Dev portal
+
+
 ## Analyze
+
+- Kibana
+- Runscope
+
 
 
 
