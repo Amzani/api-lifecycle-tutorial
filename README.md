@@ -5,7 +5,7 @@
 - Unix/Linux Shell
 - Docker
 - Clone this repo
-- Clone this repo https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/ (internal)
+- Clone this [repo](https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/) (internal)
 
 ## Design
 
@@ -88,7 +88,7 @@ Set up a CD pipeline to sync OAS file to Apiary
 
 ### Dev workflow
 
-1. Clone this repo https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/ (internal)
+1. Clone this [repo](https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/) (internal)
 2. Test with dredd
 3. Add This endpoint to your OAS file
 ```
