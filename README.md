@@ -21,7 +21,13 @@ You've decided wisly to think [API First](https://adidas-group.gitbooks.io/api-g
 - Share a video
 - Delete a video
 
-### Step2. Let's create our state machine diagram 
+### Step2. Let's create our state machine diagram
+
+Task
+```
+Create a state machine diagram
+```
+
 In this step we draw out a state diagrams for the proposed API. Each box in the diagram represents a possible representation. You can use arrows to indicate transitions from one box to the next.
 
 ![Video Model state diagram](https://raw.githubusercontent.com/Amzani/api-lifecycle-tutorial/master/img/State_Diagram.png)
@@ -30,7 +36,12 @@ This state machine diagram will help you to identify the main ressources and the
 
 ## Step3. Formalize the design in the [Open API Specification](http://swagger.io/specification/)
 
-> The OAS file can be edited in whatever tool you like, the most important thing is that the aprouved one (the contract) *MUST* be in Apiary.  
+Task 
+```
+Write an open api specification
+```
+
+> The OAS file can be edited in whatever tool you like *BUT NOT GENERATED FROM YOUR CODE*, the most important thing is that the aprouved one (the contract) *MUST* be in Apiary.
 
 Let's copy this swagger into Apiary
 [Bad swagger](./swagger-bad.yml)
@@ -39,27 +50,13 @@ This API breaks some of [Adidas API Guidelines](https://www.gitbook.com/book/adi
 
 Try to fix it and make sure the OAS file passes all adidas API Apiary style guide checks.
 
-The API style check may be also part of your developement workflow and your CD pipeline.
-
-
-1. Make sure you are a registered user of [Apiary](http://apiary.io/).
-2. Retrieve API key (token) on [this page](https://login.apiary.io/tokens).
-3. Export it as an environment variable:
-
-```
-export APIARY_API_KEY=<your_token>
-```
-
-4. Run the API Stylecheck
-```
-make api-stylecheck
-```
-Take a look at the [Makefile](./Makefile) to see how it's implemented.
-
-The API Style check may be part of your CD pipeline.
 
 ## Step4. Verify the design using Apiary Documentation and Apiary Mock Service
 
+Task
+```
+Try the Apiary mock service
+```
 
 ## Step5. Review the API Design
 
@@ -70,7 +67,8 @@ At this stage you:
 - Ask feedback from the API Evangelists (if needed :))
 
 Ask feedback from your Grandma, if your API looks like this remote control then your design is affordant and consistent.
-TODO: Put remote control Picture
+
+![Grandma Remote control](https://raw.githubusercontent.com/Amzani/api-lifecycle-tutorial/master/img/remote.webp)
 
 
 [Good swagger](./swagger.yml) is example of an Open API Spec that follows and passes the [Adidas API Guidelines](https://www.gitbook.com/book/adidas-group/api-guidelines/details)
@@ -78,15 +76,31 @@ TODO: Put remote control Picture
 
 ## Step5. Set up a CD pipeline to push OAS file from VCS to Apiary 
 
-TODO:COPY the wiki here
-TODO:Live demo.
+Task
+```
+Set up a CD pipeline to sync OAS file to Apiary
+```
 
-
+[Documentation here](https://tools.adidas-group.com/confluence/display/EA/%5BAPI+Design%5D+Set+up+the+CD+pipeline) (internal link)
 
 ## Develop the API
 
-TODO: 
+Task
+```
+Setup and test with Dredd
+```
+
+Task
+```
+Test with postman
+```
 
 ## Deploy the API
+
+## Publish
+
+## Analyze
+
+
 
 
