@@ -1,11 +1,13 @@
 # API LifeCycle tutorial
 
+
 ## Requirements
 
 - Unix/Linux Shell
-- Docker
 - Clone this repo
 - Clone this [repo](https://tools.adidas-group.com/bitbucket/users/amzansam/repos/demo-video-api/) (internal)
+- Docker (optional) 
+- Postman
 
 ## Design
 
